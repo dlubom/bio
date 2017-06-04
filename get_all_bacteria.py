@@ -1,12 +1,15 @@
 from Bio.Blast import NCBIWWW
 from pathlib2 import Path
 import logging
+from datetime import datetime
 
-data_in_catalog = "DataIn"
-data_out_catalog = 'DataOut'
+data_in_catalog = "DataInExample"
+data_out_catalog = 'DataOutExample'
 
 logging.basicConfig(format='%(asctime)s %(message)s', level=logging.DEBUG)
 
+
+startTime = datetime.now()
 
 data_in = Path('.') / data_in_catalog
 bacteria_paths = [x for x in data_in.iterdir() if x.is_file()]
@@ -31,13 +34,15 @@ for microbe_path in bacteria_paths:
         result_handle = NCBIWWW.qblast(megablast=True, program="blastn", database="nt", sequence=rna, format_type="XML")
         with open("{0}/{1}.xml".format(path, microbe), "w") as out_handle:
             out_handle.write(result_handle.read())
-            result_handle.close()
+        result_handle.close()
         logging.info("\txml done.")
 
         result_handle = NCBIWWW.qblast(megablast=True, program="blastn", database="nt", sequence=rna,
                                        format_type="HTML")
         with open("{0}/{1}.html".format(path, microbe), "w") as out_handle:
             out_handle.write(result_handle.read())
-            result_handle.close()
+        result_handle.close()
         logging.info("\thtml done.")
-logging.info("Ended.")
+
+
+logging.info("Ended. Done in {0}".format(datetime.now() - startTime))
