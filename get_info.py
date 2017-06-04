@@ -5,7 +5,7 @@ import pandas as pd
 from Bio import Entrez
 import time
 
-Entrez.email = "darek.lubomski@gmail.com"
+Entrez.email = "@gmail.com"
 
 data_in_catalog = "InfoIn"
 data_out_catalog = 'InfoOut'
